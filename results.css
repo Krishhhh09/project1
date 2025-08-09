@@ -1,0 +1,91 @@
+/* Import styles from vote.css and modify */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: #825cff;
+}
+
+.app-wrapper {
+  background-color: white;
+  width: 100vw;
+  max-width: 500px;
+  min-height: 100vh;
+  padding: 10px 0 30px 0;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px 10px 0 10px;
+}
+
+header h1 {
+  font-size: 2.3rem;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.results-section {
+  margin-bottom: 35px;
+  padding: 0 10px;
+}
+
+.results-section h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #5a3fc0;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.candidates-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.candidate-card {
+  background-color: #f1f2f6;
+  border-radius: 18px;
+  padding: 22px 10px 18px 10px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.candidate-card img {
+  width: 100%;
+  max-width: 110px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  object-fit: cover;
+}
+
+.candidate-card h2 {
+  font-size: 1.18rem;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.votes {
+  font-size: 1rem;
+  color: black;
+  font-weight: bold;
+}

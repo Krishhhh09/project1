@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR-API-KEY",
+      authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
+      projectId: "YOUR-PROJECT-ID",
+      storageBucket: "YOUR-PROJECT-ID.appspot.com",
+      messagingSenderId: "YOUR-SENDER-ID",
+      appId: "YOUR-APP-ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>My Voting App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <header>
+      <h1>My Voting App</h1>
+      <p>Vote for your favorite 2 candidates in each category below!</p>
+    </header>
+
+    <!-- Section 1 -->
+    <section class="voting-section">
+      <h2>Best Leader</h2>
+      <div class="candidates-row">
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/premium-photo/avatar-resourcing-company_1254967-6696.jpg" alt="Leader A" />
+          <h2>Leader A</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section1" value="0" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg" alt="Leader B" />
+          <h2>Leader B</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section1" value="1" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?w=740" alt="Leader C" />
+          <h2>Leader C</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section1" value="2" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-photo/3d-illustration-person-with-sunglasses_23-2149436188.jpg" alt="Leader D" />
+          <h2>Leader D</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section1" value="3" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="voting-section">
+      <h2>Best Innovator</h2>
+      <div class="candidates-row">
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/premium-photo/avatar-resourcing-company_1254967-6696.jpg" alt="Innovator A" />
+          <h2>Innovator A</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section2" value="0" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg" alt="Innovator B" />
+          <h2>Innovator B</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section2" value="1" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?w=740" alt="Innovator C" />
+          <h2>Innovator C</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section2" value="2" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-photo/3d-illustration-person-with-sunglasses_23-2149436188.jpg" alt="Innovator D" />
+          <h2>Innovator D</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section2" value="3" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="voting-section">
+      <h2>Best Team Player</h2>
+      <div class="candidates-row">
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/premium-photo/avatar-resourcing-company_1254967-6696.jpg" alt="Player A" />
+          <h2>Player A</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section3" value="0" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg" alt="Player B" />
+          <h2>Player B</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section3" value="1" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?w=740" alt="Player C" />
+          <h2>Player C</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section3" value="2" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-photo/3d-illustration-person-with-sunglasses_23-2149436188.jpg" alt="Player D" />
+          <h2>Player D</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section3" value="3" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="voting-section">
+      <h2>Best Communicator</h2>
+      <div class="candidates-row">
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/premium-photo/avatar-resourcing-company_1254967-6696.jpg" alt="Communicator A" />
+          <h2>Communicator A</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section4" value="0" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg" alt="Communicator B" />
+          <h2>Communicator B</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section4" value="1" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?w=740" alt="Communicator C" />
+          <h2>Communicator C</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section4" value="2" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-photo/3d-illustration-person-with-sunglasses_23-2149436188.jpg" alt="Communicator D" />
+          <h2>Communicator D</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section4" value="3" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="voting-section">
+      <h2>Best Problem Solver</h2>
+      <div class="candidates-row">
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/premium-photo/avatar-resourcing-company_1254967-6696.jpg" alt="Solver A" />
+          <h2>Solver A</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section5" value="0" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg" alt="Solver B" />
+          <h2>Solver B</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section5" value="1" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?w=740" alt="Solver C" />
+          <h2>Solver C</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section5" value="2" />
+          </label>
+        </div>
+        <div class="candidate-card">
+          <img src="https://img.freepik.com/free-photo/3d-illustration-person-with-sunglasses_23-2149436188.jpg" alt="Solver D" />
+          <h2>Solver D</h2>
+          <label class="checkbox-container">
+            <input type="checkbox" name="section5" value="3" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <div style="text-align:center; margin: 20px 0;">
+      <button id="submit-vote-btn">Submit Vote</button>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+  <script>
+    const sections = ["section1", "section2", "section3", "section4", "section5"];
+    sections.forEach(section => {
+      const checkboxes = document.querySelectorAll(`input[name="${section}"]`);
+      checkboxes.forEach(cb => {
+        cb.addEventListener("change", () => {
+          const selected = Array.from(checkboxes).filter(c => c.checked);
+          if (selected.length > 2) {
+            cb.checked = false;
+            alert("You can only select 2 candidates in this category.");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

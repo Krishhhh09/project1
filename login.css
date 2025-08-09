@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #000 url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    color: #fff;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 0;
+  }
+  .login-container {
+    position: relative;
+    z-index: 1;
+    max-width: 350px;
+    margin: 60px auto;
+    background: rgba(24, 26, 32, 0.95);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 32px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .login-container h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group label {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #d1d5db;
+  }
+  .form-group input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid #23272f;
+    background: #181a20;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .form-group input:focus {
+    border: 1.5px solid #2563eb;
+  }
+  .forgot-link {
+    text-align: right;
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+  }
+  .forgot-link a {
+    color: #a5b4fc;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .forgot-link a:hover {
+    color: #2563eb;
+  }
+  .login-btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .login-btn:hover {
+    background: #1d4ed8;
+  }
+  @media (max-width: 480px) {
+    .login-container {
+      max-width: 95vw;
+      padding: 22px 8px 18px 8px;
+    }
+    .login-container h2 {
+      font-size: 1.2rem;
+    }
+  }
