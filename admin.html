@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="overlay"></div>
+  <form class="login-container" autocomplete="off" id="admin-login-form">
+    <h2>Admin Sign In</h2>
+
+    <div class="form-group">
+      <label for="User">User</label>
+      <input type="text" id="User" placeholder="Enter your username" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required />
+    </div>
+
+    <button class="login-btn" type="submit">Log In</button>
+  </form>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBIaEhEH5bJNaqY92TRZ6RTc29EDaJx4LA",
+      authDomain: "voting-app-3a0d0.firebaseapp.com",
+      projectId: "voting-app-3a0d0",
+      storageBucket: "voting-app-3a0d0.appspot.com",
+      messagingSenderId: "SENDER",
+      appId: "1:919899924480:web:c1b4c71a88e940714dd0e5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('admin-login-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('User').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      try {
+        const adminRef = doc(db, "admin", username);
+        const adminSnap = await getDoc(adminRef);
+
+        if (!adminSnap.exists()) {
+          alert("Admin user does not exist.");
+          return;
+        }
+
+        const adminData = adminSnap.data();
+
+        if (adminData.password !== password) {
+          alert("Incorrect password.");
+          return;
+        }
+
+        // Save admin login state
+        localStorage.setItem("adminLoggedIn", "true");
+
+        // Redirect to results page
+        window.location.href = "results.html";
+      } catch (error) {
+        console.error("Admin login error:", error);
+        alert("Error during admin login.");
+      }
+    });
+  </script>
+</body>
+</html>

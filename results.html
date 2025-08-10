@@ -2,65 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Voting Results</title>
-  <link rel="stylesheet" href="results.css">
-  
-
+  <title>Voting Results - Admin</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f5f7fa;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .results-section {
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .category {
-      margin-bottom: 30px;
-    }
-    .category h2 {
-      margin-bottom: 10px;
-      color: #2563eb;
-    }
-    .candidate {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .candidate img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 15px;
-      object-fit: cover;
-    }
-    .candidate-name {
-      flex: 1;
-    }
-    .vote-count {
-      font-weight: bold;
-      color: #444;
-      min-width: 30px;
-      text-align: right;
-    }
+    body { font-family: Arial, sans-serif; background: #f8f8f8; }
+    h1 { text-align: center; }
+    h2 { margin-top: 2em; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 6px 0; font-size: 1.1em; }
+    .section { background: #fff; margin: 2em auto; max-width: 400px; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 1em 2em; }
   </style>
 </head>
 <body>
   <h1>Voting Results</h1>
-  <div class="results-section" id="results-section">
-    <!-- Results will load here -->
-    <div id="results"></div>
-    <script type="module" src="results.js"></script>
+  <div id="results-container"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBIaEhEH5bJNaqY92TRZ6RTc29EDaJx4LA",
+      authDomain: "voting-app-3a0d0.firebaseapp.com",
+      projectId: "voting-app-3a0d0",
+      storageBucket: "voting-app-3a0d0.appspot.com",
+      messagingSenderId: "SENDER",
+      appId: "1:919899924480:web:c1b4c71a88e940714dd0e5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Restrict access to admins only
+    if (localStorage.getItem("adminLoggedIn") !== "true") {
+      alert("Access denied. Please log in as admin.");
+      window.location.href = "admin.html";
+    }
+
+    const resultsContainer = document.getElementById("results-container");
+
+    async function loadResults() {
+      try {
+        // Fetch all sections
+        const sectionsSnapshot = await getDocs(collection(db, "sections"));
+
+        // For each section
+        for (const sectionDoc of sectionsSnapshot.docs) {
+          const sectionData = sectionDoc.data();
+
+          // Section heading
+          const sectionDiv = document.createElement("div");
+          sectionDiv.className = "section";
+          const sectionHeading = document.createElement("h2");
+          sectionHeading.textContent = sectionData.name || sectionDoc.id;
+          sectionDiv.appendChild(sectionHeading);
+
+          // Fetch nominees subcollection sorted by votes desc
+          const nomineesRef = collection(db, "sections", sectionDoc.id, "nominees");
+          const nomineesQuery = query(nomineesRef, orderBy("votes", "desc"));
+          const nomineesSnapshot = await getDocs(nomineesQuery);
+
+          if (nomineesSnapshot.empty) {
+            const noNominees = document.createElement("p");
+            noNominees.textContent = "No nominees found.";
+            sectionDiv.appendChild(noNominees);
+          } else {
+            const ul = document.createElement("ul");
+            for (const nomineeDoc of nomineesSnapshot.docs) {
+              const nominee = nomineeDoc.data();
+              const li = document.createElement("li");
+              li.textContent = `${nominee.name} — ${nominee.votes} votes`;
+              ul.appendChild(li);
+            }
+            sectionDiv.appendChild(ul);
+          }
+          resultsContainer.appendChild(sectionDiv);
+        }
+      } catch (error) {
+        console.error("Error loading results:", error);
+        resultsContainer.textContent = "Failed to load results.";
+      }
+    }
+
+    loadResults();
+    
+  </script>
+  <script type="module" src="results.js"></script>
 </body>
 </html>

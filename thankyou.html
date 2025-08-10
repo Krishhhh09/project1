@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thank You for Voting!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      min-width: 100vw;
+      overflow: hidden;
+      position: relative;
+    }
+    .bg-img {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 2;
+    }
+    .center-message {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      color: #fff;
+      text-align: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      padding: 2em 1em;
+      background: rgba(0,0,0,0.25);
+      border-radius: 18px;
+      max-width: 90vw;
+    }
+    .center-message h1 {
+      font-size: 2.2em;
+      margin-bottom: 0.5em;
+      letter-spacing: 1px;
+    }
+    .center-message p {
+      font-size: 1.2em;
+      margin: 0;
+    }
+    @media (max-width: 600px) {
+      .center-message h1 { font-size: 1.4em; }
+      .center-message p { font-size: 1em; }
+      .center-message { padding: 1.2em 0.5em; }
+    }
+  </style>
+</head>
+<body>
+  <img class="bg-img" src="thanks.png" alt="Thank You Background" />
+  <div class="overlay"></div>
+  <div class="center-message">
+    <h1>Thank You for Voting!</h1>
+    <p>Your vote has been recorded.<br>Have a wonderful day!</p>
+  </div>
+</body>
+</html>

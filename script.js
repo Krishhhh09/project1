@@ -1,12 +1,10 @@
-// script.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore,
   doc,
-  setDoc,
   getDoc,
-  updateDoc
+  updateDoc,
+  increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -23,6 +21,8 @@ const db = getFirestore(app);
 
 const submitBtn = document.getElementById("submit-vote-btn");
 
+submitBtn.addEventListener("click", submitVote);
+
 async function submitVote() {
   const username = localStorage.getItem("username");
   if (!username) {
@@ -31,20 +31,37 @@ async function submitVote() {
     return;
   }
 
+  // Map your section names to Firestore section IDs
+  const sectionMap = {
+    section1: "Best Leader",
+    section2: "Best Innovator",
+    section3: "Best Team Player",
+    section4: "Best Communicator",
+    section5: "Best Problem Solver"
+  };
+
+  // Map checkbox values to nominee names (must match Firestore nominee document IDs)
+  const nomineeMap = {
+    section1: ["Leader A", "Leader B", "Leader C", "Leader D"],
+    section2: ["Innovator A", "Innovator B", "Innovator C", "Innovator D"],
+    section3: ["Player A", "Player B", "Player C", "Player D"],
+    section4: ["Communicator A", "Communicator B", "Communicator C", "Communicator D"],
+    section5: ["Solver A", "Solver B", "Solver C", "Solver D"]
+  };
+
   const sections = ["section1", "section2", "section3", "section4", "section5"];
-  const votesToAdd = {};
+  let votes = [];
 
   for (const section of sections) {
     const checkedBoxes = document.querySelectorAll(`input[name="${section}"]:checked`);
     if (checkedBoxes.length !== 2) {
-      alert(`Please select exactly 2 candidates in ${section}.`);
+      alert(`Please select exactly 2 candidates in ${sectionMap[section]}.`);
       return;
     }
-
-    votesToAdd[section] = Array(4).fill(0); // 4 candidates per section
     checkedBoxes.forEach(cb => {
-      const index = parseInt(cb.value);
-      votesToAdd[section][index]++;
+      const nomineeIndex = parseInt(cb.value);
+      const nomineeName = nomineeMap[section][nomineeIndex];
+      votes.push({ section: sectionMap[section], nominee: nomineeName });
     });
   }
 
@@ -61,36 +78,22 @@ async function submitVote() {
     const userData = userSnap.data();
     if (userData.hasVoted) {
       alert("You have already voted!");
-      window.location.href = "results.html";
+      window.location.href = "thankyou.html";
       return;
     }
 
-    const votesRef = doc(db, "votes", "results");
-    const votesSnap = await getDoc(votesRef);
-
-    if (!votesSnap.exists()) {
-      await setDoc(votesRef, votesToAdd);
-    } else {
-      const currentVotes = votesSnap.data();
-      const updatedVotes = {};
-
-      for (const section of sections) {
-        updatedVotes[section] = currentVotes[section].map(
-          (count, idx) => count + votesToAdd[section][idx]
-        );
-      }
-
-      await updateDoc(votesRef, updatedVotes);
+    // Increment votes for each selected nominee
+    for (const vote of votes) {
+      const nomineeRef = doc(db, "sections", vote.section, "nominees", vote.nominee);
+      await updateDoc(nomineeRef, { votes: increment(1) });
     }
 
     await updateDoc(userRef, { hasVoted: true });
 
     alert("Vote submitted successfully!");
-    window.location.href = "results.html";
+    window.location.href = "thankyou.html";
   } catch (error) {
     console.error("Error submitting vote:", error);
     alert("Failed to submit vote. Please try again.");
   }
 }
-
-submitBtn.addEventListener("click", submitVote);
